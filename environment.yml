@@ -1,0 +1,15 @@
+name: ia_paises
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - snowflake-connector-python
+    - requests
+    - google-cloud-bigquery
+    - pycountry
+    - python-dotenv
+
+# conda env create -f environment.yml
+# conda activate ia_paises
