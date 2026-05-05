@@ -2,7 +2,7 @@ import os
 import snowflake.connector
 from dotenv import load_dotenv
 
-load_dotenv("../.env")
+load_dotenv(r"C:\Users\alex\Desktop\ai_countries\.env")
 
 conn = snowflake.connector.connect(
     account=os.environ["SNOWFLAKE_ACCOUNT"],
@@ -16,6 +16,8 @@ cur = conn.cursor()
 corea = [
 
     # DATOS KOREA SUR MANUAL 1
+    "USE ROLE ACCOUNTADMIN",
+    "TRUNCATE TABLE IA_PAISES.RAW.DIM_COUNTRIES",
     """
     INSERT INTO IA_PAISES.RAW.WORLDBANK_INDICATORS VALUES
     ('KOR', 'Korea, Rep.', 2019, 'RESEARCHERS_PER_MILLION', 8328.96727),
@@ -39,12 +41,13 @@ for sql in corea:
     print(f"OK: {sql[:60].strip()}")
 
 # validación
-cur.execute(    #-- VISTA
+'''cur.execute(    #-- VISTA
     """SELECT * FROM IA_PAISES.ANALYTICS.VW_AI_KPI
     WHERE COUNTRY_ID = 'KOR'
     ORDER BY YEAR""")
 for row in cur.fetchall():
-    print(row)
+    print(row)'''
+# La validación de KOR ya la hace el script final cuando filtra CHN','USA','DEU','KOR'
 
 cur.close()
 conn.close()

@@ -5,7 +5,7 @@ import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 from dotenv import load_dotenv
 
-load_dotenv("../.env")
+load_dotenv(r"C:\Users\alex\Desktop\ai_countries\.env")
 
 indicators = {
     "SP.POP.TOTL": "POPULATION",

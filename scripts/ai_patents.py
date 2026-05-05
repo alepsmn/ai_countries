@@ -6,7 +6,7 @@ import pandas as pd
 from snowflake.connector.pandas_tools import write_pandas
 from dotenv import load_dotenv
 
-load_dotenv("../.env")
+load_dotenv(r"C:\Users\alex\Desktop\ai_countries\.env")
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.environ["GCP_CREDENTIALS_PATH"]
 
 client = bigquery.Client(project="iniciocloud")

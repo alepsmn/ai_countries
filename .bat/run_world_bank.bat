@@ -1,0 +1,1 @@
+C:\Users\alex\miniconda3\envs\ia_paises\python.exe "C:\Users\alex\Desktop\ai_countries\scripts\world_bank.py"

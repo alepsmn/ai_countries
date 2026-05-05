@@ -1,0 +1,1 @@
+C:\Users\alex\miniconda3\envs\ia_paises\python.exe "C:\Users\alex\Desktop\ai_countries\tablas_snowflake\schemas_snowflake.py"

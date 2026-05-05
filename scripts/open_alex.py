@@ -4,7 +4,7 @@ import pycountry
 import snowflake.connector
 from dotenv import load_dotenv
 
-load_dotenv("../.env")
+load_dotenv(r"C:\Users\alex\Desktop\ai_countries\.env")
 
 conn = snowflake.connector.connect(
     account=os.environ["SNOWFLAKE_ACCOUNT"],
