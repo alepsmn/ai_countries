@@ -1,0 +1,6 @@
+python=3.11
+
+requests
+google-cloud-bigquery
+pycountry
+python-dotenv
