@@ -2,3 +2,6 @@
 .vscode
 docs/
 keyfile*.json
+.venv/
+__pycache__/
+data/
