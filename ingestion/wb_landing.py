@@ -5,8 +5,9 @@ import requests
 import time
 
 from random import uniform
+from typing import Any
 
-import config
+from . import config
 
 logger = logging.getLogger(__name__)
 
@@ -19,25 +20,21 @@ REQUEST_TIMEOUT = 10 # segundos maximos a esperar por respuesta
 BACKOFF_BASE = 2 # El tiempo esperara: 1s, 2s, 4s, ...
 
 # Codigos HTTP que si merece la pena reintentar
-RETRYABLE_STATUS = [429, 500, 502, 503, 504]
+RETRYABLE_STATUS = [400, 429, 500, 502, 503, 504]
 
-wb_aggregates = [
-    "AFE","AFW","ARB","CEB","CSS","EAP","EAR","EAS","ECA","ECS",
-    "EMU","EUU","FCS","HIC","HPC","IBD","IBT","IDA","IDB","IDX",
-    "LAC","LCN","LDC","LIC","LMC","LMY","LTE","MEA","MIC","MNA",
-    "NAC","OED","OSS","PRE","PSS","PST","SAS","SSA","SSF","SST",
-    "TEA","TEC","TLA","TMN","TSA","TSS","UMC","WLD","XZN"
-]
+#Se introduce 400 para reintentar porque WB lo usa para notificar fallo de infraestructura
+#no para errores de parametros (ej: congestion) abortando el pipeline entero
+#4xx - determinista seria falso para esta API concreta
 
-def ejecutar_peticion_wb(indicator, pagination) -> tuple[dict, list]:
+def ejecutar_peticion_wb(indicator:str, pagination:int) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """
     Recibe un indicador (poblacion, GDP, ...) del que se obtendran los campos
     0 y 1 de la respuesta de la API de WB en forma de tupla, para desempaquetarla
     posteriormente
     """
-    params = {
+    params: dict[str, str | int] = {
         "format": "json", # si no, devuelve xml
-        "date": "2019:2024",
+        "date": f"{config.YEAR_START}:{config.YEAR_END}",
         "per_page": 500,
         "page": pagination
     }
@@ -52,7 +49,11 @@ def ejecutar_peticion_wb(indicator, pagination) -> tuple[dict, list]:
             r = requests.get(BASE_URL + f"/country/all/indicator/{indicator}", params=params, timeout=REQUEST_TIMEOUT)
             r.raise_for_status()
             data = r.json()
-            return data[0], data[1]
+            try:
+                if len(data) == 2:
+                    return data[0], data[1]
+            except Exception as e:
+                logger.critical(f"Fallo en el formato de vuelta {data}-{e}")
         except requests.exceptions.HTTPError as exc:
             status = exc.response.status_code if exc.response is not None else None
             if status not in RETRYABLE_STATUS:
@@ -73,14 +74,13 @@ def ejecutar_peticion_wb(indicator, pagination) -> tuple[dict, list]:
             logger.info("Reintentando en %ss...", wait)
             time.sleep(wait)
 
-    # este else se ejecuta si no se produce nunca break en el FOR - todos los intentos fallaron
-    else:
-        raise RuntimeError(
-            "WorldBank no respondió tras %s intentos" %(MAX_RETRIES)
-        ) from last_exc
+    # Como no hay break no es necesario else
+    raise RuntimeError(
+        "WorldBank no respondió tras %s intentos" %(MAX_RETRIES)
+    ) from last_exc
 
 
-def ejecutar_paginacion_wb(indicator, page=1) -> list[dict]:
+def ejecutar_paginacion_wb(indicator:str, page:int=1) -> list[dict[str, Any]]:
     """
     Bucle externo a partir del cual, mediante el indicador proporcionado,
     se haran peticiones necesarias para satisfacer el numero de paginas necesarias
@@ -129,9 +129,11 @@ def main() -> None:
         """
         Cada indicador se almacena de forma independiente en disco
         """
+        # NDJSON: un objeto por linea, sin indentar. Es el unico formato JSON
+        # que acepta el cargador de BigQuery.
         with output_path.open("w", encoding="utf-8") as f:
             for record in data_indic:
-                json.dump(record, f, ensure_ascii=False, indent=2)
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     logger.info("Done. %s registros → %s", len(all_data), output_path)
 
