@@ -1,6 +1,5 @@
 .env
 .vscode
-docs/
 keyfile*.json
 .venv/
 __pycache__/
