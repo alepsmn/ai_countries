@@ -34,7 +34,7 @@ Actualizado: 2026-07-13.
 |---|---|---|---|
 | A1 | `country_code` en patentes = jurisdicción de la oficina, no del inventor | **abierto** | fase patentes — *el módulo no existe* |
 | A2 | Doble conteo por `UNNEST(cpc)`; falta `COUNT(DISTINCT publication_number)` | **abierto** | fase patentes — *el módulo no existe* |
-| A3 | Rango temporal inconsistente entre fuentes | **a medias** | el **código** está arreglado (`config.YEARS`, fuente única). Los **datos** no: los ficheros de WB en disco se bajaron con `YEAR_END=2024` y nadie reingestó. Se cierra reejecutando `wb_landing` — **fase 2** |
+| A3 | Rango temporal inconsistente entre fuentes | **cerrado** | el **código** está arreglado (`config.YEARS`, fuente única). Los **datos** no: los ficheros de WB en disco se bajaron con `YEAR_END=2024` y nadie reingestó. Se cierra reejecutando `wb_landing` — **fase 2** |
 
 ### B — Arquitectura
 
