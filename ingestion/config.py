@@ -38,6 +38,14 @@ YEARS: range = range(YEAR_START, YEAR_END + 1)
 OA_BASE_URL: str = "https://api.openalex.org/works"
 WB_BASE_URL: str = "https://api.worldbank.org/v2"
 
+# --- Seguridad ------------------------------
+# Parametros que nunca deben viajar en una URL persistida: la trazabilidad
+# guarda 'request_url', pero sin credenciales. Los usan sanear_url (ingesta)
+# y la puerta de validacion (antes de subir).
+SENSITIVE_PARAMS: frozenset[str] = frozenset(
+    {"api_key", "apikey", "key", "token", "access_token"}
+)
+
 def configure_logging(level: int = logging.INFO) -> None:
     """ Configura el logging raiz con timestamps y nivel
     Idempotente entre scripts: cada 'main()' la invoca una vez al arrancar

@@ -12,7 +12,7 @@ Tiene tres secciones y la diferencia entre ellas importa:
 3. **Deuda aparcada** — lo que apareció trabajando en otra cosa. **Regla: si aparece algo
    nuevo mientras trabajas en una fase, se anota aquí, no se mete en la fase abierta.**
 
-Actualizado: 2026-07-13.
+Actualizado: 2026-07-15.
 
 ---
 
@@ -26,7 +26,7 @@ Actualizado: 2026-07-13.
 
 ## 2. Los 11 errores
 
-**Van 4 cerrados, 1 a medias, 6 abiertos.**
+**Van 5 cerrados, 6 abiertos.**
 
 ### A — Corrupción de datos
 
@@ -34,7 +34,7 @@ Actualizado: 2026-07-13.
 |---|---|---|---|
 | A1 | `country_code` en patentes = jurisdicción de la oficina, no del inventor | **abierto** | fase patentes — *el módulo no existe* |
 | A2 | Doble conteo por `UNNEST(cpc)`; falta `COUNT(DISTINCT publication_number)` | **abierto** | fase patentes — *el módulo no existe* |
-| A3 | Rango temporal inconsistente entre fuentes | **cerrado** | el **código** está arreglado (`config.YEARS`, fuente única). Los **datos** no: los ficheros de WB en disco se bajaron con `YEAR_END=2024` y nadie reingestó. Se cierra reejecutando `wb_landing` — **fase 2** |
+| A3 | Rango temporal inconsistente entre fuentes | **cerrado** | código y datos alineados: WB reingestado con `YEAR_END=2023` (los 5 ficheros, 2019–2023), y la **puerta de validación** (`ingestion/validacion.py`) corta cualquier año fuera de `config.YEARS` antes de subir. Ya no puede divergir en silencio |
 
 ### B — Arquitectura
 
@@ -67,10 +67,10 @@ Por eso cada vez que te acercas a una capa nueva "aparece" un error. No aparece:
 declarado desde el día uno, esperando en la capa que ibas a construir. Es secuenciación
 correcta, no trabajo repetido. Lo que faltaba era este marcador.
 
-**El único que parece una regresión (A3, WB con 2024) tampoco lo es**: el arreglo está en
-el código; lo que está viejo es el fichero. Un arreglo que no se re-ejecuta sobre los
-datos no es un arreglo aplicado. Esa distinción entre *código correcto* y *artefacto
-correcto* es, en sí misma, media fase 2.
+**A3 ya está cerrado** (antes parecía una regresión: el código estaba bien y lo viejo era
+el fichero). Se cerró reingestando WB y, sobre todo, construyendo la **puerta de validación**
+que impide que *artefacto* y *código* vuelvan a divergir en silencio. Esa distinción entre
+*código correcto* y *artefacto correcto* fue, en sí misma, media fase 2.
 
 ---
 
@@ -120,9 +120,9 @@ curso. Se revisitan cuando haya un motivo concreto, no por completismo.
       distinto de 0 si hubo alguno. La tarea falla, pero los años que sí bajaron quedan en
       disco y el retry no los re-descarga.
 
-- [ ] **`SENSITIVE_PARAMS` dentro de `sanear_url()`** (`ingestion/oa_landing.py:121`). Se
-      reconstruye el `frozenset` en cada llamada. Con 5 llamadas es irrelevante; como
-      constante de módulo sería más idiomático. Nota de estilo, no bug.
+- [x] **`SENSITIVE_PARAMS` como constante de módulo** — hecho. Subido a `config.py` como
+      constante compartida; lo usan `sanear_url` (ingesta) y la puerta de validación
+      (`validacion.py`). Dejó de reconstruirse por llamada y hay una sola fuente.
 
 ### Cobertura
 

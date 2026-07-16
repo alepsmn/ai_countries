@@ -118,13 +118,11 @@ def sanear_url(url: str) -> str:
     La URL se persiste en el fichero crudo para trazabilidad, por lo que no
     puede contener credenciales aunquela peticion se autentique por cabecera.
     """
-    SENSITIVE_PARAMS = frozenset({"api_key", "apikey", "key", "token", "access_token"})
-
     partes = urlsplit(url) # urlparse separa el campo params -> daria tupla de 6 no 5
     query = [
         # parse_qs - dict[str, list[str]]; parse_sql - list[tuple[str, str]] lo que urlencode come, ademas de preservar orden y duplicados
         (clave, valor) for clave, valor in parse_qsl(partes.query, keep_blank_values=True)
-        if clave.lower() not in SENSITIVE_PARAMS
+        if clave.lower() not in config.SENSITIVE_PARAMS
     ]
     return urlunsplit(partes._replace(query=urlencode(query)))
 

@@ -1,6 +1,7 @@
 # Fase 2 — Loader: landing → GCS → BigQuery
 
-Estado: **abierta**. Abierta 2026-07-13.
+Estado: **abierta** (2026-07-13). Pasos 1–3 del orden de build (§4) **hechos**; siguiente:
+**paso 4, infra GCP**. Actualizado 2026-07-15.
 
 Entregable: los ficheros de `data/raw/` viven en GCS y en dos tablas de BigQuery
 (`raw.openalex`, `raw.worldbank`), cargadas por un loader **idempotente**: ejecutarlo dos
@@ -145,6 +146,20 @@ el envoltorio va repetido en cada línea y hay que asumir qué significa eso.
 
 Ninguna de las dos es gratis. Lo que no vale es dejarlo como está.
 
+> **Resuelto (2026-07-15).** Fila de `raw.worldbank` = **el registro** (país-año-indicador),
+> que es la granularidad que dbt/staging explota. WB pasa a escribir un envoltorio por
+> registro —`source`, `request_url`, `year`, `ingested_at`, `payload`— simétrico con OA:
+> - **Consecuencia 1** (trazabilidad): resuelta — envoltorio con `request_url` (capturado de
+>   `r.url` en la página 1, no reconstruido) e `ingested_at`.
+> - **Consecuencia 3** (fecha en el nombre): resuelta — ruta fija `datos-{name}.json`.
+> - **Consecuencia 4** (escritura duplicada): resuelta — `guardar_crudo` extraído en WB.
+> - **Consecuencia 2** (unidad de idempotencia): **sigue abierta** — es del loader (ver §6).
+>
+> El `year` se subió al envoltorio de WB (`int(payload["date"])`) aunque el plan lo daba por
+> derivable en SQL. Razón: la **puerta de validación corre antes que SQL** y necesita el año,
+> y el esquema de §1.1 lo quiere de primer nivel igualmente. Dos consumidores previos a dbt
+> lo piden, así que se materializa en la ingesta, no en staging.
+
 ---
 
 ## 3. El dato viejo: World Bank trae 2024 y OpenAlex no
@@ -178,6 +193,14 @@ De ahí sale un requisito que esta fase no tenía y ahora sí:
 Esto es exactamente lo que distingue un pipeline de un script: **el script asume que su
 input es correcto; el pipeline lo comprueba y falla ruidosamente cuando no lo es.**
 
+> **Resuelto (2026-07-15).** WB reingestado con `YEAR_END=2023`: los 5 ficheros contienen
+> 2019–2023 (A3 cerrado). Y la puerta existe: `ingestion/validacion.py`, función pura
+> `valida(ruta: Path)` que lanza `PuertaError` si un fichero incumple el contrato —NDJSON
+> válido, no vacío, todos los años en `config.YEARS`, sin credenciales en `request_url`—.
+> Probada sobre los 10 ficheros reales (pasan) y casos sintéticos (año fuera de rango, sin
+> `year`, `api_key` en la URL → cortan). **Falta enchufarla**: el uploader (paso 5) la
+> llamará sobre cada fichero antes de subirlo.
+
 ---
 
 ## 4. Orden de build
@@ -185,10 +208,11 @@ input es correcto; el pipeline lo comprueba y falla ruidosamente cuando no lo es
 Por dependencia, no por preferencia.
 
 1. ~~**Cerrar fase 1**: commit del trabajo pendiente + arreglar `tests/oa_test.py`.~~ **hecho** (§0).
-2. **Simetrizar los landings** (§2): decidir la fila de `raw.worldbank`, poner envoltorio y
+2. ~~**Simetrizar los landings** (§2): decidir la fila de `raw.worldbank`, poner envoltorio y
    trazabilidad en WB, quitar la fecha del nombre del fichero, extraer el helper de
-   escritura compartido.
-3. **Puerta de validación** (§3) + reingesta de WB con el rango correcto.
+   escritura compartido.~~ **hecho** — fila=registro, envoltorio simétrico con OA (ver §2).
+3. ~~**Puerta de validación** (§3) + reingesta de WB con el rango correcto.~~ **hecho** —
+   `ingestion/validacion.py` (4 checks) + reingesta con 2019–2023 (ver §3).
 4. **Infra GCP**: bucket con versioning + lifecycle; dataset `raw` en la misma *location*
    que el bucket (`US`, ya declarado en `config.py` — si no coinciden, el load job falla).
 5. **Uploader a GCS**: ruta fija.
@@ -217,11 +241,14 @@ No basta con "se cargó". La afirmación que hay que poder defender es **idempot
 
 ## 6. Pendientes / decisiones abiertas
 
-- [ ] **La fila de `raw.worldbank`** (§2). Bloquea el esquema y el mecanismo de
-      idempotencia de esa tabla.
+- [x] **La fila de `raw.worldbank`** — decidida: **el registro** (ver §2, Resuelto).
 - [ ] **Decorador de partición sobre integer-range** (§1.2). Verificar contra la doc de BQ
       antes de dar por bueno el patrón.
-- [ ] **Idempotencia de WB**: si su unidad es el indicador y no el año, su clave de
-      sobreescritura no puede ser una partición por `year`. Decidir junto con §2.
+- [ ] **Idempotencia de WB**: su unidad de descarga es el indicador (todos los años en una
+      petición paginada), no el año. Aunque el envoltorio ya lleva `year`, la clave de
+      **sobreescritura** no puede ser una partición por `year` sin más. Se decide en el
+      loader (paso 6).
+- [ ] **Enchufar la puerta** — `valida()` existe y está probada, pero aún no la llama nadie.
+      El uploader (paso 5) debe invocarla sobre cada fichero antes de subir.
 - [ ] `REQUEST_TIMEOUT = 2` en OA sigue siendo agresivo (ver `estado.md` §4). Si el loader
       va a correr en Airflow, esto pasa de nota de estilo a fallo intermitente.

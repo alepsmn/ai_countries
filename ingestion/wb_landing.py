@@ -154,6 +154,7 @@ def main() -> None:
             {
                 "source": "worldbank",
                 "request_url": url,
+                "year": int(data["date"]),   # WB lo trae dentro del registro, como string
                 "ingested_at": ingested_at,
                 "payload": data
             }
