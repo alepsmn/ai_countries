@@ -12,7 +12,7 @@ Tiene tres secciones y la diferencia entre ellas importa:
 3. **Deuda aparcada** — lo que apareció trabajando en otra cosa. **Regla: si aparece algo
    nuevo mientras trabajas en una fase, se anota aquí, no se mete en la fase abierta.**
 
-Actualizado: 2026-07-15.
+Actualizado: 2026-07-20.
 
 ---
 
@@ -26,7 +26,7 @@ Actualizado: 2026-07-15.
 
 ## 2. Los 11 errores
 
-**Van 5 cerrados, 6 abiertos.**
+**Van 6 cerrados, 5 abiertos.**
 
 ### A — Corrupción de datos
 
@@ -40,7 +40,7 @@ Actualizado: 2026-07-15.
 
 | # | Error | Estado | Dónde se cierra |
 |---|---|---|---|
-| B4 | Sin idempotencia: la ingesta hace `append`; un retry de Airflow duplica | **abierto** | **fase 2** — es el objeto de la fase |
+| B4 | Sin idempotencia: la ingesta hace `append`; un retry de Airflow duplica | **cerrado** | **fase 2** — la cadena entera es idempotente: los landings sobrescriben rutas fijas (`datos-{name}.json`, `openalex_{year}.json`), el upload pisa el mismo objeto en GCS y el load a BigQuery usa `WRITE_TRUNCATE`. Un retry produce el mismo estado, sin duplicar. Verificado con el primer load real (2026-07-20): OpenAlex 5 filas (5 años), World Bank 6625 (5 indicadores × 5 años × 265 países) |
 | B5 | Modelo EAV: `COUNTRY_NAME` repetido en cada RAW → causa el bug de Korea | **abierto** | dbt `staging/` — *`dbt/models/` está vacío* |
 | B6 | `VW_AI_KPI` definida 3 veces con cuerpos distintos | **abierto** | dbt `marts/` — *`dbt/models/` está vacío* |
 | B7 | Parche manual de Korea (5 valores hardcoded, sin fuente ni fecha) | **abierto** (causa ya diagnosticada, ver bloqueante 3) | dbt — desaparece solo al arreglar B5 |
@@ -59,9 +59,13 @@ Actualizado: 2026-07-15.
 Los 6 abiertos **no están en el código que ya escribiste**. Están en capas que todavía no
 existen:
 
-- **B4** → el loader a BigQuery. Es la fase 2.
 - **B5, B6, B7** → dbt. `dbt/models/staging|intermediate|marts` están *vacíos*.
 - **A1, A2** → patentes. El módulo se borró y se reescribirá en su fase.
+
+**B4 ya está cerrado** (fase 2): el loader a BigQuery (`gcs/load_bigquery.py`) existe y ha
+corrido contra el dataset RAW. La idempotencia no vino de un dedup sino del diseño —
+sobrescritura en cada eslabón (rutas fijas en disco, mismo objeto en GCS, `WRITE_TRUNCATE`
+en el load—, así que un retry de Airflow reproduce el estado en vez de duplicarlo.
 
 Por eso cada vez que te acercas a una capa nueva "aparece" un error. No aparece: estaba
 declarado desde el día uno, esperando en la capa que ibas a construir. Es secuenciación
