@@ -1,0 +1,40 @@
+version: 2
+
+seeds:
+  - name: dim_countries
+    description: >
+      La dimension de paises: quien decide que es un pais. Una fila por pais.
+      Todo lo que no este aqui no entra en el score --- es lo que filtra los
+      agregados de World Bank (ZH, XD, EU, 1W...) sin ninguna lista de nombres
+      escrita a mano. La genera `scripts/gen_dim_countries.py`; no se edita a
+      mano.
+    columns:
+      - name: country_code
+        description: ISO2. La clave de join contra las dos fuentes. Nunca el nombre.
+        tests:
+          - unique
+          - not_null
+      - name: country_iso3
+        description: ISO3. No se usa para juntar, se conserva para cruces externos.
+        tests:
+          - not_null
+      - name: country_name
+        description: >
+          El unico nombre para mostrar. `common_name` de pycountry con respaldo en
+          `name`: aqui KR es "South Korea", no "Korea, Republic of" --- que es la
+          cadena de OpenAlex con la que se hacia el join roto.
+        tests:
+          - not_null
+      - name: bloc
+        description: Bloque geopolitico, excluyente. Orden UE > OTAN > BRICS > OTHER.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["EU", "NATO", "BRICS", "OTHER"]
+      - name: is_nato
+        description: >
+          Ortogonal a `bloc`: como la UE gana la precedencia, esta columna es la
+          que dice cuales de los 27 son ademas OTAN.
+        tests:
+          - not_null

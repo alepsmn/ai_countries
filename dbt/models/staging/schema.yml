@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_openalex
+    description: articulos de IA por pais y anyo. Una fila = un pais en un anyo.
+    # Test de grano: va al nivel del modelo, no de una columna, porque habla de
+    # varias a la vez. Ninguna de las dos es unica por separado (cada pais sale 5
+    # veces, cada anyo 200); lo unico que debe ser unico es la pareja. Es el test
+    # que caza un UNNEST descorrelacionado, que duplicaria filas sin romper
+    # ningun not_null.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          # dbt 1.12 exige anidar los argumentos de un test generico bajo
+          # `arguments:`; sin ello avisa de deprecacion.
+          arguments:
+            combination_of_columns:
+              - country_code
+              - year
+    columns:
+      - name: country_code
+        description: ISO2 extraido de la URL, clave de join contra la dimension
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: articles
+        tests:
+          - not_null
+      - name: country_name_oa
+        description: nombre segun OA del pais, etiqueta, NO clave

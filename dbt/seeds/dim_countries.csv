@@ -1,0 +1,242 @@
+country_code,country_iso3,country_name,bloc,is_nato
+AD,AND,Andorra,OTHER,false
+AE,ARE,United Arab Emirates,BRICS,false
+AF,AFG,Afghanistan,OTHER,false
+AG,ATG,Antigua and Barbuda,OTHER,false
+AI,AIA,Anguilla,OTHER,false
+AL,ALB,Albania,NATO,true
+AM,ARM,Armenia,OTHER,false
+AO,AGO,Angola,OTHER,false
+AQ,ATA,Antarctica,OTHER,false
+AR,ARG,Argentina,OTHER,false
+AS,ASM,American Samoa,OTHER,false
+AT,AUT,Austria,EU,false
+AU,AUS,Australia,OTHER,false
+AW,ABW,Aruba,OTHER,false
+AX,ALA,Åland Islands,OTHER,false
+AZ,AZE,Azerbaijan,OTHER,false
+BA,BIH,Bosnia and Herzegovina,OTHER,false
+BB,BRB,Barbados,OTHER,false
+BD,BGD,Bangladesh,OTHER,false
+BE,BEL,Belgium,EU,true
+BF,BFA,Burkina Faso,OTHER,false
+BG,BGR,Bulgaria,EU,true
+BH,BHR,Bahrain,OTHER,false
+BI,BDI,Burundi,OTHER,false
+BJ,BEN,Benin,OTHER,false
+BL,BLM,Saint Barthélemy,OTHER,false
+BM,BMU,Bermuda,OTHER,false
+BN,BRN,Brunei Darussalam,OTHER,false
+BO,BOL,Bolivia,OTHER,false
+BQ,BES,"Bonaire, Sint Eustatius and Saba",OTHER,false
+BR,BRA,Brazil,BRICS,false
+BS,BHS,Bahamas,OTHER,false
+BT,BTN,Bhutan,OTHER,false
+BV,BVT,Bouvet Island,OTHER,false
+BW,BWA,Botswana,OTHER,false
+BY,BLR,Belarus,OTHER,false
+BZ,BLZ,Belize,OTHER,false
+CA,CAN,Canada,NATO,true
+CC,CCK,Cocos (Keeling) Islands,OTHER,false
+CD,COD,"Congo, The Democratic Republic of the",OTHER,false
+CF,CAF,Central African Republic,OTHER,false
+CG,COG,Congo,OTHER,false
+CH,CHE,Switzerland,OTHER,false
+CI,CIV,Côte d'Ivoire,OTHER,false
+CK,COK,Cook Islands,OTHER,false
+CL,CHL,Chile,OTHER,false
+CM,CMR,Cameroon,OTHER,false
+CN,CHN,China,BRICS,false
+CO,COL,Colombia,OTHER,false
+CR,CRI,Costa Rica,OTHER,false
+CU,CUB,Cuba,OTHER,false
+CV,CPV,Cabo Verde,OTHER,false
+CW,CUW,Curaçao,OTHER,false
+CX,CXR,Christmas Island,OTHER,false
+CY,CYP,Cyprus,EU,false
+CZ,CZE,Czechia,EU,true
+DE,DEU,Germany,EU,true
+DJ,DJI,Djibouti,OTHER,false
+DK,DNK,Denmark,EU,true
+DM,DMA,Dominica,OTHER,false
+DO,DOM,Dominican Republic,OTHER,false
+DZ,DZA,Algeria,OTHER,false
+EC,ECU,Ecuador,OTHER,false
+EE,EST,Estonia,EU,true
+EG,EGY,Egypt,BRICS,false
+EH,ESH,Western Sahara,OTHER,false
+ER,ERI,Eritrea,OTHER,false
+ES,ESP,Spain,EU,true
+ET,ETH,Ethiopia,BRICS,false
+FI,FIN,Finland,EU,true
+FJ,FJI,Fiji,OTHER,false
+FK,FLK,Falkland Islands (Malvinas),OTHER,false
+FM,FSM,"Micronesia, Federated States of",OTHER,false
+FO,FRO,Faroe Islands,OTHER,false
+FR,FRA,France,EU,true
+GA,GAB,Gabon,OTHER,false
+GB,GBR,United Kingdom,NATO,true
+GD,GRD,Grenada,OTHER,false
+GE,GEO,Georgia,OTHER,false
+GG,GGY,Guernsey,OTHER,false
+GH,GHA,Ghana,OTHER,false
+GI,GIB,Gibraltar,OTHER,false
+GL,GRL,Greenland,OTHER,false
+GM,GMB,Gambia,OTHER,false
+GN,GIN,Guinea,OTHER,false
+GQ,GNQ,Equatorial Guinea,OTHER,false
+GR,GRC,Greece,EU,true
+GS,SGS,South Georgia and the South Sandwich Islands,OTHER,false
+GT,GTM,Guatemala,OTHER,false
+GU,GUM,Guam,OTHER,false
+GW,GNB,Guinea-Bissau,OTHER,false
+GY,GUY,Guyana,OTHER,false
+HK,HKG,Hong Kong,OTHER,false
+HM,HMD,Heard Island and McDonald Islands,OTHER,false
+HN,HND,Honduras,OTHER,false
+HR,HRV,Croatia,EU,true
+HT,HTI,Haiti,OTHER,false
+HU,HUN,Hungary,EU,true
+ID,IDN,Indonesia,BRICS,false
+IE,IRL,Ireland,EU,false
+IL,ISR,Israel,OTHER,false
+IM,IMN,Isle of Man,OTHER,false
+IN,IND,India,BRICS,false
+IO,IOT,British Indian Ocean Territory,OTHER,false
+IQ,IRQ,Iraq,OTHER,false
+IR,IRN,Iran,BRICS,false
+IS,ISL,Iceland,NATO,true
+IT,ITA,Italy,EU,true
+JM,JAM,Jamaica,OTHER,false
+JO,JOR,Jordan,OTHER,false
+JP,JPN,Japan,OTHER,false
+KE,KEN,Kenya,OTHER,false
+KG,KGZ,Kyrgyzstan,OTHER,false
+KH,KHM,Cambodia,OTHER,false
+KI,KIR,Kiribati,OTHER,false
+KM,COM,Comoros,OTHER,false
+KN,KNA,Saint Kitts and Nevis,OTHER,false
+KP,PRK,North Korea,OTHER,false
+KR,KOR,South Korea,OTHER,false
+KW,KWT,Kuwait,OTHER,false
+KY,CYM,Cayman Islands,OTHER,false
+KZ,KAZ,Kazakhstan,OTHER,false
+LA,LAO,Laos,OTHER,false
+LB,LBN,Lebanon,OTHER,false
+LC,LCA,Saint Lucia,OTHER,false
+LI,LIE,Liechtenstein,OTHER,false
+LK,LKA,Sri Lanka,OTHER,false
+LR,LBR,Liberia,OTHER,false
+LS,LSO,Lesotho,OTHER,false
+LT,LTU,Lithuania,EU,true
+LU,LUX,Luxembourg,EU,true
+LV,LVA,Latvia,EU,true
+LY,LBY,Libya,OTHER,false
+MA,MAR,Morocco,OTHER,false
+MC,MCO,Monaco,OTHER,false
+MD,MDA,Moldova,OTHER,false
+ME,MNE,Montenegro,NATO,true
+MF,MAF,Saint Martin (French part),OTHER,false
+MG,MDG,Madagascar,OTHER,false
+MH,MHL,Marshall Islands,OTHER,false
+MK,MKD,North Macedonia,NATO,true
+ML,MLI,Mali,OTHER,false
+MM,MMR,Myanmar,OTHER,false
+MN,MNG,Mongolia,OTHER,false
+MO,MAC,Macao,OTHER,false
+MP,MNP,Northern Mariana Islands,OTHER,false
+MR,MRT,Mauritania,OTHER,false
+MT,MLT,Malta,EU,false
+MU,MUS,Mauritius,OTHER,false
+MV,MDV,Maldives,OTHER,false
+MW,MWI,Malawi,OTHER,false
+MX,MEX,Mexico,OTHER,false
+MY,MYS,Malaysia,OTHER,false
+MZ,MOZ,Mozambique,OTHER,false
+NA,NAM,Namibia,OTHER,false
+NC,NCL,New Caledonia,OTHER,false
+NE,NER,Niger,OTHER,false
+NF,NFK,Norfolk Island,OTHER,false
+NG,NGA,Nigeria,OTHER,false
+NI,NIC,Nicaragua,OTHER,false
+NL,NLD,Netherlands,EU,true
+NO,NOR,Norway,NATO,true
+NP,NPL,Nepal,OTHER,false
+NR,NRU,Nauru,OTHER,false
+NU,NIU,Niue,OTHER,false
+NZ,NZL,New Zealand,OTHER,false
+OM,OMN,Oman,OTHER,false
+PA,PAN,Panama,OTHER,false
+PE,PER,Peru,OTHER,false
+PF,PYF,French Polynesia,OTHER,false
+PG,PNG,Papua New Guinea,OTHER,false
+PH,PHL,Philippines,OTHER,false
+PK,PAK,Pakistan,OTHER,false
+PL,POL,Poland,EU,true
+PM,SPM,Saint Pierre and Miquelon,OTHER,false
+PN,PCN,Pitcairn,OTHER,false
+PR,PRI,Puerto Rico,OTHER,false
+PS,PSE,"Palestine, State of",OTHER,false
+PT,PRT,Portugal,EU,true
+PW,PLW,Palau,OTHER,false
+PY,PRY,Paraguay,OTHER,false
+QA,QAT,Qatar,OTHER,false
+RO,ROU,Romania,EU,true
+RS,SRB,Serbia,OTHER,false
+RU,RUS,Russian Federation,BRICS,false
+RW,RWA,Rwanda,OTHER,false
+SA,SAU,Saudi Arabia,OTHER,false
+SB,SLB,Solomon Islands,OTHER,false
+SC,SYC,Seychelles,OTHER,false
+SD,SDN,Sudan,OTHER,false
+SE,SWE,Sweden,EU,true
+SG,SGP,Singapore,OTHER,false
+SH,SHN,"Saint Helena, Ascension and Tristan da Cunha",OTHER,false
+SI,SVN,Slovenia,EU,true
+SK,SVK,Slovakia,EU,true
+SL,SLE,Sierra Leone,OTHER,false
+SM,SMR,San Marino,OTHER,false
+SN,SEN,Senegal,OTHER,false
+SO,SOM,Somalia,OTHER,false
+SR,SUR,Suriname,OTHER,false
+SS,SSD,South Sudan,OTHER,false
+ST,STP,Sao Tome and Principe,OTHER,false
+SV,SLV,El Salvador,OTHER,false
+SX,SXM,Sint Maarten (Dutch part),OTHER,false
+SY,SYR,Syria,OTHER,false
+SZ,SWZ,Eswatini,OTHER,false
+TC,TCA,Turks and Caicos Islands,OTHER,false
+TD,TCD,Chad,OTHER,false
+TF,ATF,French Southern Territories,OTHER,false
+TG,TGO,Togo,OTHER,false
+TH,THA,Thailand,OTHER,false
+TJ,TJK,Tajikistan,OTHER,false
+TK,TKL,Tokelau,OTHER,false
+TL,TLS,Timor-Leste,OTHER,false
+TM,TKM,Turkmenistan,OTHER,false
+TN,TUN,Tunisia,OTHER,false
+TO,TON,Tonga,OTHER,false
+TR,TUR,Türkiye,NATO,true
+TT,TTO,Trinidad and Tobago,OTHER,false
+TV,TUV,Tuvalu,OTHER,false
+TW,TWN,Taiwan,OTHER,false
+TZ,TZA,Tanzania,OTHER,false
+UA,UKR,Ukraine,OTHER,false
+UG,UGA,Uganda,OTHER,false
+UM,UMI,United States Minor Outlying Islands,OTHER,false
+US,USA,United States,NATO,true
+UY,URY,Uruguay,OTHER,false
+UZ,UZB,Uzbekistan,OTHER,false
+VC,VCT,Saint Vincent and the Grenadines,OTHER,false
+VE,VEN,Venezuela,OTHER,false
+VG,VGB,"Virgin Islands, British",OTHER,false
+VI,VIR,"Virgin Islands, U.S.",OTHER,false
+VN,VNM,Vietnam,OTHER,false
+VU,VUT,Vanuatu,OTHER,false
+WF,WLF,Wallis and Futuna,OTHER,false
+WS,WSM,Samoa,OTHER,false
+XK,XKX,Kosovo,OTHER,false
+YE,YEM,Yemen,OTHER,false
+ZA,ZAF,South Africa,BRICS,false
+ZM,ZMB,Zambia,OTHER,false
+ZW,ZWE,Zimbabwe,OTHER,false

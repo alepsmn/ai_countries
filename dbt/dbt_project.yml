@@ -27,3 +27,12 @@ models:
 seeds:
   ai_countries:
     +schema: seeds
+    dim_countries:
+      # Tipos explicitos, no inferidos. El caso que lo obliga: el ISO2 de Namibia
+      # es `NA`, y casi todo lector de CSV lo interpreta como nulo.
+      +column_types:
+        country_code: STRING
+        country_iso3: STRING
+        country_name: STRING
+        bloc: STRING
+        is_nato: BOOLEAN

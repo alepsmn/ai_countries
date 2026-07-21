@@ -11,6 +11,8 @@
 # `location` debe coincidir con la del bucket y la del dataset RAW (US) o los
 # jobs fallan sin explicar por que.
 
+# (dbt) database - (BQ) proyecto; schema - dataset; tabla - tabla
+
 ai_countries:
   target: dev
   outputs:

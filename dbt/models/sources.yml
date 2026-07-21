@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    database: ai-countries-501514
+    schema: raw
+    tables:
+      - name: openalex
+        description: fila - ano con los 200 paises dentro de payload.group_by
+      - name: worldbank
+        description: fila - pais-indicador-ano

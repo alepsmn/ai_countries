@@ -1,0 +1,10 @@
+# Dependencias de dbt. `dbt deps` las descarga en `dbt_packages/` (ignorado en git):
+# se reinstalan desde este fichero, no se versionan.
+#
+# dbt_utils aporta los tests que la libreria estandar no cubre. El que hace falta
+# aqui es `unique_combination_of_columns`: el `unique` de serie es de una sola
+# columna y en staging la clave es una pareja (o una terna en `stg_worldbank`).
+
+packages:
+  - package: dbt-labs/dbt_utils
+    version: [">=1.3.0", "<2.0.0"]
