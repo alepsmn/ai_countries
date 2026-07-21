@@ -4,3 +4,11 @@ keyfile*.json
 .venv/
 __pycache__/
 data/
+
+# material de referencia, no forma parte del proyecto
+sandbox/
+
+# artefactos de dbt: compilados, manifest y logs de cada run
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/

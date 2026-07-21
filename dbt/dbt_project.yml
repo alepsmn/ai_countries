@@ -1,0 +1,29 @@
+name: ai_countries
+version: 0.1.0
+
+profile: ai_countries
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+target-path: target
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  ai_countries:
+    # staging es limpieza 1:1 desde RAW: barata de recalcular y se consulta poco,
+    # asi que no merece la pena materializarla.
+    staging:
+      +materialized: view
+    # intermediate cambia el grano (pivote, joins). Vista mientras el volumen sea
+    # este; si algun modelo se vuelve caro, se sube a table uno a uno, no la capa.
+    intermediate:
+      +materialized: view
+    # marts se consulta desde fuera (BI) y el coste de escanear se paga una vez.
+    marts:
+      +materialized: table
+
+seeds:
+  ai_countries:
+    +schema: seeds

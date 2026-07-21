@@ -27,7 +27,8 @@ dev = [
     "pytest>=9.1.1",
 ]
 
-# la libreria no trae type-hints -> evitar que mypy lo mire
+# que google-cloud-storage es la única librería de Google del proyecto que no publica py.typed (bigquery, api_core y auth sí);
+# mypy lee el código de storage, ve que sus funciones no están anotadas, y por eso protesta.
 [[tool.mypy.overrides]]
 module = ["google.cloud.*"]
-ignore_missing_imports = true
+follow_untyped_imports = true

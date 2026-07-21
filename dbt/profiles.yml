@@ -1,0 +1,26 @@
+# Perfil del proyecto, versionado a proposito: con `method: oauth` aqui no hay
+# ningun secreto. La autenticacion son las ADC del usuario
+# (`gcloud auth application-default login`), las mismas que usa la ingesta:
+# la organizacion prohibe crear claves de service account.
+#
+# dbt busca `profiles.yml` en DBT_PROFILES_DIR, luego en el directorio actual y
+# por ultimo en ~/.dbt. Al vivir aqui, los comandos se lanzan desde `dbt/` y no
+# dependen de la configuracion personal de la maquina --- que hoy apunta a otro
+# proyecto (`datacenter_impact`) y con keyfile.
+#
+# `location` debe coincidir con la del bucket y la del dataset RAW (US) o los
+# jobs fallan sin explicar por que.
+
+ai_countries:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: ai-countries-501514
+      dataset: analytics
+      location: US
+      threads: 4
+      timeout_seconds: 300
+      priority: interactive
+      job_retries: 1
