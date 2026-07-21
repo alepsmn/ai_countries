@@ -29,3 +29,43 @@ models:
           - not_null
       - name: country_name_oa
         description: nombre segun OA del pais, etiqueta, NO clave
+
+  - name: stg_worldbank
+    description: >
+      Indicadores de World Bank. Una fila = pais-anyo-indicador, el grano que ya
+      tiene RAW. Fiel a la fuente: los ~49 agregados (ZH, XD, EU, 1W...) pasan sin
+      filtrar. El filtro es el join con dim_countries y vive en intermediate/,
+      porque aqui rompería el build por diseño correcto de las dos partes.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - country_code
+              - year
+              - indicator_id
+    columns:
+      - name: country_code
+        description: ISO2 (`payload.country.id`). Mismo nombre que en stg_openalex y en la dimension - a proposito.
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: indicator_id
+        description: codigo World Bank del indicador, p.ej. SP.POP.SCIE.RD.P6
+        tests:
+          - not_null
+      - name: indicator_value
+        description: >
+          El dato. SIN not_null a proposito: el 25% son nulos (1684 de 6625) y no
+          es un fallo de la ingesta - World Bank no publica investigadores para el
+          63% de los pais-anyo, ni I+D sobre PIB para el 56%. La cobertura, no la
+          formula, es la restriccion real del score.
+      - name: country_iso3
+        description: >
+          `payload.countryiso3code`. Etiqueta, no clave: 125 filas lo traen como
+          cadena vacia. El ISO3 bueno lo pone la dimension.
+      - name: country_name_wb
+        description: nombre segun WB, etiqueta, NO clave. Es el "Korea, Rep." del bug.
+      - name: indicator_name
+        description: nombre largo del indicador, etiqueta repetida en cada fila
